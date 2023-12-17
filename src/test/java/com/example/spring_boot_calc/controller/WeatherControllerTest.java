@@ -122,19 +122,20 @@ public class WeatherControllerTest {
         mockMvc.perform(get("/forecast")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{ \"from\":\"" + now + "\",\"to\":\"" + now.plusDays(1) + "\"}"))
-                .andExpect(jsonPath("$.avgTempC").value(BigDecimal.valueOf((0.0 + (-10.1))/2).round(mathContext)));
+                .andExpect(jsonPath("$.avgTempC").value(BigDecimal.valueOf((0.0 + (-10.1)) / 2).round(mathContext)));
     }
 
     @Test
     public void should_Return_Http_Status_No_Content() throws Exception {
         weatherRepository.deleteAll();
+        LocalDate now = LocalDate.now();
 
         mockMvc.perform(get("/current"))
                 .andExpect(status().isNoContent());
 
         mockMvc.perform(get("/forecast")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{ \"from\":\"2023-12-16\",\"to\":\"2023-12-17\"}"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{ \"from\":\"" + now + "\",\"to\":\"" + now.plusDays(1) + "\"}"))
                 .andExpect(status().isNoContent());
     }
 }
